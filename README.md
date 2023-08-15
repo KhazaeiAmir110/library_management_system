@@ -1,2 +1,5 @@
 # library_management_system
-The library management system consists of the following sections:  1. Book Management 1. Member Management 1. Book Reservation
+The library management system consists of the following sections: 
+1. Book Management
+2. Member Management
+3. Book Reservation
