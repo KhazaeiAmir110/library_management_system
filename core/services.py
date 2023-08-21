@@ -1,6 +1,6 @@
 import os
 import sys
-import redis_services
+from core import redis_services
 
 
 def create_otp(key, header=None, length=5, **options):
