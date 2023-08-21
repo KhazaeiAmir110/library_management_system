@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_redis',
+    'rest_framework_simplejwt',
 
     'user',
 ]
