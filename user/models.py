@@ -17,7 +17,7 @@ class User(AbstractUser):
         ('N', _('Normal')),
     )
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='N')
-    membership_validity_date = models.DateTimeField()
+    membership_validity_date = models.DateTimeField(null=True)
 
     REQUIRED_FIELDS = ['email', 'name']
 
