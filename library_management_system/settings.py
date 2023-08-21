@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_redis',
     'rest_framework_simplejwt',
+    'django_filters',
 
     'user',
 ]
@@ -132,3 +133,11 @@ AUTH_USER_MODEL = 'user.User'
 
 REDIS_HOST = 'localhost'
 REDIS_PORT = '6379'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
