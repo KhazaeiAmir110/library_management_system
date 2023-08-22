@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_redis',
     'rest_framework_simplejwt',
     'django_filters',
+    'django_celery_beat',
 
     'user',
     'documentation',
@@ -142,3 +143,10 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
+
+BROKER_URL = 'redis_app://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis_app://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Tehran'
