@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_filters',
     'django_celery_beat',
+    'rest_framework_swagger',
 
     'user',
     'documentation',
@@ -72,6 +73,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'staticfiles': 'django.templatetags.static',
+            },
         },
     },
 ]
@@ -146,6 +150,7 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': [
         'core.throttling.UserPhoneRateThrottle',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 
     'DEFAULT_THROTTLE_RATES': {
         'user': '5/m',
