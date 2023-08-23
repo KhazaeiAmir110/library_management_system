@@ -32,9 +32,9 @@ class ReservationViewSet(mixins.CreateModelMixin,
                         headers=headers)
 
 
-class UserReservationListAPIView(generics.ListAPIView):
+class UserReservationListAPIView(mixins.ListModelMixin, GenericViewSet):
     serializer_class = ReservationListSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         user = self.request.user

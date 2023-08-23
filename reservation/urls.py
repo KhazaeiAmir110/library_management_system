@@ -6,9 +6,9 @@ from .views import (
 from rest_framework import routers
 
 router = routers.SimpleRouter()
-router.register(r'create', ReservationViewSet)
+router.register(r'create', ReservationViewSet, basename='create-user')
+router.register(r'list', UserReservationListAPIView, basename='list')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('list-user-reservation/', UserReservationListAPIView.as_view()),
 ]
