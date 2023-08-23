@@ -140,8 +140,18 @@ REDIS_PORT = '6379'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'core.throttling.UserPhoneAuthenticator',
     ],
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'core.throttling.UserPhoneRateThrottle',
+    ],
+
+    'DEFAULT_THROTTLE_RATES': {
+        'user': '5/m',
+        'user_hourly': '10/h',
+        'user-otp': '10/h',
+    }
 }
 
 BROKER_URL = 'redis_app://localhost:6379'

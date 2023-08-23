@@ -3,7 +3,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import mixins
-
+from core.throttling import UserPhoneRateThrottle
 from .models import User
 import core.services as core_services
 import user.services as user_services
@@ -28,6 +28,8 @@ class UserViewSet(mixins.RetrieveModelMixin,
                   GenericViewSet):
     queryset = User.objects.all()
     serializer_class = UserPublicSerializer
+    throttle_classes = [UserPhoneRateThrottle]
+    throttle_scope = 'user'
 
     @action(methods=['POST'], detail=False, url_path='generate-otp')
     def generate_otp(self, request, *args, **kwargs):
