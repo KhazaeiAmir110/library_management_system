@@ -1,12 +1,7 @@
 from fastapi import APIRouter, Form
-from fastapi.responses import HTMLResponse, RedirectResponse
-
-from apps.company.models import Company, SansConfig, SansHistoryDate, HolidaysDate, Reservation
-from apps.users.models import User
-from base import secret
 
 router = APIRouter(
-    prefix="/company",
+    prefix="/book",
     tags=["Company"]
 )
 
@@ -20,31 +15,31 @@ async def home():
 # @router.get("/", response_class=HTMLResponse)
 # async def home():
 #     companies = Company.objects.filter(is_active=1)
-#     join_table = Company.objects.inner_join(join_table=User, join_condition="company.user_id=user.id")
+#     join_table = Company.objects.inner_join(join_table=User, join_condition="book.user_id=user.id")
 #
-#     template = Template(open("templates/company/page1.html").read())
+#     template = Template(open("templates/book/page1.html").read())
 #     return HTMLResponse(template.render(companies=companies, join_table=join_table))
 #
 #
 # # صفحه جزئیات شرکت
 # @router.get("/{company_slug}", response_class=HTMLResponse)
 # async def company_detail(company_slug: str):
-#     company = Company.objects.get(slug=company_slug)
+#     book = Company.objects.get(slug=company_slug)
 #
-#     if company:
-#         holidays = HolidaysDate.objects.filter(company_id=company[0])
-#         sansconfig = SansConfig.objects.get(company_id=company[0])
-#         sansholidaydatetime = SansHistoryDate.objects.get(company_id=company[0])
-#         reservations = Reservation.objects.filter(company_id=company[0])
+#     if book:
+#         holidays = HolidaysDate.objects.filter(company_id=book[0])
+#         sansconfig = SansConfig.objects.get(company_id=book[0])
+#         sansholidaydatetime = SansHistoryDate.objects.get(company_id=book[0])
+#         reservations = Reservation.objects.filter(company_id=book[0])
 #     else:
 #         holidays = "No holidays"
 #         sansconfig = "No sansconfig"
 #         sansholidaydatetime = "No sansholidaydatetime"
 #         reservations = "No reservations"
 #
-#     template = Template(open("templates/company/page2.html").read())
+#     template = Template(open("templates/book/page2.html").read())
 #     return HTMLResponse(template.render(
-#         company=company,
+#         book=book,
 #         holidays=holidays,
 #         sansconfig=sansconfig,
 #         sansholidaydatetime=sansholidaydatetime,
@@ -120,7 +115,7 @@ async def home():
 #                 time=session["time"],
 #                 company_id=Company.objects.get(slug=company_slug)[0]
 #             )
-#             template = Template(open("templates/company/page5.html").read())
+#             template = Template(open("templates/book/page5.html").read())
 #             return HTMLResponse(template.render())
 #         else:
 #             return HTMLResponse(f"Transaction failed. Status: {result.Status}", status_code=400)

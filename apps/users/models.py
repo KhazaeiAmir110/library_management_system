@@ -4,10 +4,11 @@ from apps.core.orm import ORMMixin
 
 class UserManager(ORMMixin, Database):
     _create_table_query = """
-        CREATE TABLE IF NOT EXISTS user (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+        CREATE TABLE IF NOT EXISTS "user" (
+            id SERIAL PRIMARY KEY,
+            status VARCHAR(20) NOT NULL DEFAULT 'Normal' CHECK (status IN ('Special', 'Normal')),
             password TEXT NOT NULL,
-            is_superuser BOOLEAN NOT NULL default 0,
+            is_superuser BOOLEAN NOT NULL DEFAULT FALSE,
             first_name TEXT NOT NULL,
             last_name TEXT NOT NULL,
             is_active BOOLEAN NOT NULL,
