@@ -12,9 +12,9 @@ class Config(object):
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(Config.BASE_DIR, 'app.db')
+    DATABASE_URI = 'postgresql://postgres:postgres@localhost:5432/book_store'
 
 
 class ProductionConfig(Config):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = '...'
+    DATABASE_URI = '...'
