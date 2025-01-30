@@ -29,8 +29,35 @@ class ORMMixin:
                 return None
             return results
 
-    def update(self):
-        pass
+    def update(self, *args, **kwargs):
+        if not kwargs:
+            raise ValueError("ERROR: No fields provided for update")
+
+        filters = {key: kwargs.pop(key) for key in list(kwargs.keys()) if key in self.primary_keys}
+
+        if not filters:
+            raise ValueError("ERROR: No valid primary key provided for update")
+
+        set_values = []
+        for key, value in kwargs.items():
+            if value is None:
+                set_values.append(f"{key} = NULL")
+            elif isinstance(value, str):
+                set_values.append(f"{key} = '{value}'")
+            else:
+                set_values.append(f"{key} = {value}")
+
+        where_clause = " AND ".join([f"{key} = '{value}'" for key, value in filters.items()])
+
+        with self:
+            self.execute_raw(
+                f"""
+                    UPDATE {self.__class__.__name__.split('Manager')[0].lower()}
+                    SET {', '.join(set_values)}
+                    WHERE {where_clause};
+                """
+            )
+            return True
 
     def delete(self, *args, **kwargs):
         global key_, value_
@@ -51,7 +78,7 @@ class ORMMixin:
         else:
             raise ValueError("ERROR :Not delete")
 
-    def insert(self, *args, **kwargs):
+    def create(self, *args, **kwargs):
         keys = kwargs.keys()
         values = kwargs.values()
 
@@ -71,7 +98,6 @@ class ORMMixin:
                     INSERT INTO {self.__class__.__name__.split('Manager')[0].lower()}
                      ({', '.join(keys)})
                      VALUES ({', '.join(formatted_values)})
-                     
                 """
             )
             return True

@@ -22,6 +22,7 @@ class GenreManager(ORMMixin, Database):
 
 
 class BookManager(ORMMixin, Database):
+    primary_keys = ["id"]
     _create_table_query = """
         CREATE TABLE IF NOT EXISTS book (
             id SERIAL PRIMARY KEY,
