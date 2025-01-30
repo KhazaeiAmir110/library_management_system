@@ -1,4 +1,7 @@
-from fastapi import APIRouter, Form
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
+from apps.book.models import Book, City, Genre, Author, BookManager
+from typing import List
 
 router = APIRouter(
     prefix="/book",
@@ -11,113 +14,36 @@ async def home():
     return {"message": "Hello World"}
 
 
-# # صفحه اصلی شرکت‌ها
-# @router.get("/", response_class=HTMLResponse)
-# async def home():
-#     companies = Company.objects.filter(is_active=1)
-#     join_table = Company.objects.inner_join(join_table=User, join_condition="book.user_id=user.id")
-#
-#     template = Template(open("templates/book/page1.html").read())
-#     return HTMLResponse(template.render(companies=companies, join_table=join_table))
-#
-#
-# # صفحه جزئیات شرکت
-# @router.get("/{company_slug}", response_class=HTMLResponse)
-# async def company_detail(company_slug: str):
-#     book = Company.objects.get(slug=company_slug)
-#
-#     if book:
-#         holidays = HolidaysDate.objects.filter(company_id=book[0])
-#         sansconfig = SansConfig.objects.get(company_id=book[0])
-#         sansholidaydatetime = SansHistoryDate.objects.get(company_id=book[0])
-#         reservations = Reservation.objects.filter(company_id=book[0])
-#     else:
-#         holidays = "No holidays"
-#         sansconfig = "No sansconfig"
-#         sansholidaydatetime = "No sansholidaydatetime"
-#         reservations = "No reservations"
-#
-#     template = Template(open("templates/book/page2.html").read())
-#     return HTMLResponse(template.render(
-#         book=book,
-#         holidays=holidays,
-#         sansconfig=sansconfig,
-#         sansholidaydatetime=sansholidaydatetime,
-#         reservations=reservations
-#     ))
-#
-#
-# # ارسال کد به شماره کاربر
-# @router.post("/baraato/send")
-# async def send_code(
-#         name: str = Form(...), family: str = Form(...), number: str = Form(...),
-#         email: str = Form(...), time: str = Form(...), date: str = Form(...),
-#         amount: float = Form(...)
-# ):
-#     # ذخیره اطلاعات کاربر در session-like dictionary
-#     session = {
-#         "name": name,
-#         "family": family,
-#         "number": number,
-#         "email": email,
-#         "time": time,
-#         "date": date,
-#         "amount": amount
-#     }
-#
-#     # ارسال پیامک به کاربر
-#     api = IPPanelClient(secret.API_KEY)
-#     api.send(
-#         sender=secret.sender,
-#         recipients=[number],
-#         message=f"کد تأیید : {secret.code}\n سیستم رزرواسیون و نوبت دهی براتو",
-#         summary=secret.summary
-#     )
-#
-#     return {"status": "success"}
-#
-#
-# # صفحه پرداخت
-# @router.post("/{company_slug}/payment", response_class=HTMLResponse)
-# async def payment(company_slug: str):
-#     client = sudsClient(secret.ZARINPAL_WEBSERVICE)
-#     amount = session.get("amount")
-#
-#     if not amount:
-#         return HTMLResponse("Error: Amount is missing", status_code=400)
-#
-#     result = client.service.PaymentRequest(
-#         secret.MERCHANT, amount, secret.description, secret.email, secret.phone,
-#         f"http://127.0.0.1:8000/company/{company_slug}/payment/verify/"
-#     )
-#
-#     if result.Status == 100:
-#         return RedirectResponse(f"{secret.ZP_API_STARTPAY}{result.Authority}")
-#     else:
-#         return HTMLResponse("Error: Payment request failed", status_code=400)
-#
-#
-# # تأیید پرداخت
-# @router.get("/{company_slug}/payment/verify/", response_class=HTMLResponse)
-# async def verify(company_slug: str, status: str, authority: str):
-#     client = sudsClient(secret.ZARINPAL_WEBSERVICE)
-#
-#     if status == "OK":
-#         result = client.service.PaymentVerification(secret.MERCHANT, authority, session.get("amount"))
-#
-#         if result.Status == 100:
-#             Reservation.objects.insert(
-#                 first_name=session["name"],
-#                 last_name=session["family"],
-#                 phone_number=session["number"],
-#                 email=session["email"],
-#                 date=session["date"],
-#                 time=session["time"],
-#                 company_id=Company.objects.get(slug=company_slug)[0]
-#             )
-#             template = Template(open("templates/book/page5.html").read())
-#             return HTMLResponse(template.render())
-#         else:
-#             return HTMLResponse(f"Transaction failed. Status: {result.Status}", status_code=400)
-#
-#     return HTMLResponse("Transaction failed or canceled by user", status_code=400)
+class BookModel(BaseModel):
+    name: str
+    type: str
+    status: str
+    price: float
+    description: str
+    author_id: int
+    city_id: int
+    genre_id: int
+
+
+class BookResponse(BookModel):
+    id: int
+
+
+@router.post("/books/", response_model=BookResponse)
+async def create_book(book: BookModel):
+    book_id = await BookModel.objects.create(book)
+    return {**book.dict(), "id": book_id}
+
+
+@router.get("/books/", response_model=List[BookResponse])
+async def get_books():
+    books = await Book.objects.all()
+    return books
+
+
+@router.get("/books/{book_id}", response_model=BookResponse)
+async def get_book(book_id: int):
+    book = await Book.objects.get(book_id)
+    if book is None:
+        raise HTTPException(status_code=404, detail="Book not found")
+    return book

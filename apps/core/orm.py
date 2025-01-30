@@ -17,6 +17,18 @@ class ORMMixin:
                     return None
                 return results[0]
 
+    def all(self, *args, **kwargs):
+        with self:
+            query = f"SELECT * FROM {self.__class__.__name__.split('Manager')[0].lower()}"
+            if kwargs:
+                filters = [f"{key} = '{value}'" for key, value in kwargs.items()]
+                query += " WHERE " + " AND ".join(filters)
+
+            results = self.execute_raw(query)
+            if len(results) == 0:
+                return None
+            return results
+
     def update(self):
         pass
 
