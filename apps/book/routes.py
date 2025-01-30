@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from apps.book.models import Book, City, Genre, Author, BookManager
+from apps.book.models import Book, City, Genre, BookManager
 from typing import List
 
 router = APIRouter(
