@@ -27,7 +27,7 @@ class BookManager(ORMMixin, Database):
             id SERIAL PRIMARY KEY,
             title VARCHAR(250) NOT NULL,
             units INTEGER NOT NULL DEFAULT 0,
-            status CHAR(1) NOT NULL DEFAULT 'Available' CHECK (status IN ('Available', 'Reserved'))
+            status CHAR(10) NOT NULL DEFAULT 'Available' CHECK (status IN ('Available', 'Reserved')),
             isbn TEXT UNIQUE,
             price FLOAT NOT NULL,
             description TEXT NOT NULL,

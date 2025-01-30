@@ -12,18 +12,17 @@ app.config = DevelopmentConfig()
 
 @app.on_event("startup")
 async def startup():
-    from apps.book.models import Book, City, Genre, Author
+    from apps.book.models import Book, City, Genre
     from apps.reservation.models import Reservation
-    from apps.users.models import User
+    from apps.users.models import User, Author, Customer
 
     User.objects.create_table()
-    Author.objects.create_table()
-    City.objects.create_table()
+    Customer.objects.create_table()
     Genre.objects.create_table()
     Book.objects.create_table()
+    City.objects.create_table()
+    Author.objects.create_table()
     Reservation.objects.create_table()
-
-    print(City.objects.all())
 
 
 def register_routers(app_fastapi):
