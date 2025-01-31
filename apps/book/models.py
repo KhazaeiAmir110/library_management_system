@@ -29,9 +29,9 @@ class BookManager(ORMMixin, Database):
             title VARCHAR(250) NOT NULL,
             units INTEGER NOT NULL DEFAULT 0,
             status CHAR(10) NOT NULL DEFAULT 'Available' CHECK (status IN ('Available', 'Reserved')),
-            isbn TEXT UNIQUE,
+            isbn CHAR(13) UNIQUE NOT NULL,
             price FLOAT NOT NULL,
-            description TEXT NOT NULL,
+            description TEXT,
             genre_id INTEGER NOT NULL,
             FOREIGN KEY (genre_id) REFERENCES genre (id) ON DELETE CASCADE
         );

@@ -4,13 +4,13 @@ from fastapi import APIRouter, HTTPException, responses
 from starlette import status
 
 from apps.book.models import Book
-from apps.book.serializers import BookBaseSerializer, BookUpdateSerializer
+from apps.book.serializers import BookBaseSerializer, BookUpdateSerializer, BookCreateSerializer
 
 router = APIRouter(prefix="/book", tags=["Book"])
 
 
-@router.post("/", response_model=BookBaseSerializer)
-async def create_book(book: BookBaseSerializer):
+@router.post("/", response_model=BookCreateSerializer)
+async def create_book(book: BookCreateSerializer):
     try:
         Book.objects.create(
             title=book.title,
