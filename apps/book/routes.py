@@ -9,7 +9,7 @@ from apps.book.serializers import BookBaseSerializer, BookUpdateSerializer, Book
 router = APIRouter(prefix="/book", tags=["Book"])
 
 
-@router.post("/", response_model=BookCreateSerializer)
+@router.post("/")
 async def create_book(book: BookCreateSerializer):
     try:
         Book.objects.create(
@@ -52,7 +52,7 @@ async def get_book(book_id: int):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 
-@router.patch("/{book_id}", response_model=BookUpdateSerializer)
+@router.patch("/{book_id}")
 async def update_book(book_id: int, book: BookUpdateSerializer):
     try:
         update_data = {key: value for key, value in book.dict().items() if value is not None}
@@ -63,7 +63,7 @@ async def update_book(book_id: int, book: BookUpdateSerializer):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 
-@router.delete("/{book_id}", response_model=BookBaseSerializer)
+@router.delete("/{book_id}")
 async def delete_book(book_id: int):
     try:
         Book.objects.delete(id=book_id)

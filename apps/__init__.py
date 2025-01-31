@@ -1,9 +1,8 @@
 from fastapi import FastAPI
 
-from apps.book.routes import router as company_router
 from apps.core.database import Database
-from apps.users.routes import router as users_router
-from config import DevelopmentConfig
+from apps.routes import register_routers
+from base.config import DevelopmentConfig
 
 app = FastAPI()
 
@@ -25,9 +24,12 @@ async def startup():
     Reservation.objects.create_table()
 
 
-def register_routers(app_fastapi):
-    app_fastapi.include_router(users_router)
-    app_fastapi.include_router(company_router)
+@app.middleware("http")
+async def add_process_time_header(request, call_next):
+    # before
+    response = await call_next(request)
+    # after
+    return response
 
 
 register_routers(app)

@@ -8,7 +8,7 @@ from apps.book.models import Book
 
 
 class BookBaseSerializer(BaseModel):
-    id: Optional[int] = None
+    id: int
     title: str
     units: int
     status: str
