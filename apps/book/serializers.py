@@ -18,7 +18,7 @@ class BookBaseSerializer(BaseModel):
     genre_id: int
 
 
-class BookCreateSerializer(BookBaseSerializer):
+class BookCreateSerializer(BaseModel):
     title: str = Field(min_length=1, max_length=255, description="Book title")
     units: int = Field(description="Book units", default=uuid.uuid4().int)
     status: Literal["Available", "Reserved"] = Field(description="Book status", default="Available")
@@ -40,11 +40,9 @@ class BookCreateSerializer(BookBaseSerializer):
         return value
 
 
-class BookUpdateSerializer(BookBaseSerializer):
-    title: Optional[str] = None
-    units: Optional[int] = None
-    status: Optional[str] = None
-    isbn: Optional[str] = None
-    price: Optional[float] = None
-    description: Optional[str] = None
-    genre_id: Optional[int] = None
+class BookUpdateSerializer(BaseModel):
+    title: str = Field(min_length=1, max_length=255, description="Book title", default=None)
+    status: Literal["Available", "Reserved"] = Field(description="Book status", default=None)
+    price: float = Field(ge=0, description="Book price", default=None)
+    description: str = Field(description="Book description", default=None)
+    genre_id: int = Field(description="Book genre id", default=None)
