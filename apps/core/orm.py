@@ -4,7 +4,7 @@ class ORMMixin:
         if len(keys) == 0:
             return None
         elif len(keys) > 1:
-            return ValueError("ERROR : User More than one")
+            return ValueError("ERROR : Users More than one")
         else:
             with self:
                 results = self.execute_raw(

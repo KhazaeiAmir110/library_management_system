@@ -13,9 +13,9 @@ app.config = DevelopmentConfig()
 async def startup():
     from apps.book.models import Book, Genre
     from apps.reservation.models import Reservation
-    from apps.users.models import User, Author, Customer, City
+    from apps.users.models import Users, Author, Customer, City
 
-    User.objects.create_table()
+    Users.objects.create_table()
     Customer.objects.create_table()
     Genre.objects.create_table()
     Book.objects.create_table()

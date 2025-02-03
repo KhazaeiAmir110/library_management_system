@@ -2,22 +2,22 @@ from typing import List
 
 from fastapi import APIRouter, HTTPException, status
 
-from apps.users.models import User
-from apps.users.serializers import UserCreateUpdateSerializer, UserBaseSerializer
+from apps.users.models import Users
+from apps.users.serializers import UserCreateSerializer, UserBaseSerializer, UserUpdateSerializer
 from apps.users.services import UserService
 
-router = APIRouter(prefix="/user", tags=["User"])
+router = APIRouter(prefix="/user", tags=["Users"])
 
 
 @router.post("/")
-async def create_user(user: UserCreateUpdateSerializer, status_code=201):
+async def create_user(user: UserCreateSerializer, status_code=201):
     return UserService.create_user(user)
 
 
 @router.get("/", response_model=List[UserBaseSerializer])
 async def list_users():
     try:
-        users = User.objects.all()
+        users = Users.objects.all()
         user_list = [
             UserBaseSerializer(**{
                 field_name: field_value
@@ -39,7 +39,7 @@ async def get_user(user_id: int, status_code=200):
 
 
 @router.patch("/{user_id}")
-async def update_user(user_id: int, user: UserCreateUpdateSerializer, status_code=200):
+async def update_user(user_id: int, user: UserUpdateSerializer, status_code=200):
     return UserService.update_user(user_id, user)
 
 

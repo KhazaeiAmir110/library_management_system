@@ -1,8 +1,8 @@
 from apps.book.models import Book, City, Genre, Author
 from apps.reservation.models import Reservation
-from apps.users.models import User
+from apps.users.models import Users
 
-User.objects.create_table()
+Users.objects.create_table()
 Author.objects.create_table()
 City.objects.create_table()
 Genre.objects.create_table()
