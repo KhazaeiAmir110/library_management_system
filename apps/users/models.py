@@ -3,6 +3,7 @@ from apps.core.orm import ORMMixin
 
 
 class UserManager(ORMMixin, Database):
+    primary_keys = ["id"]
     _create_table_query = """
         CREATE TABLE IF NOT EXISTS "user" (
             id SERIAL PRIMARY KEY,
@@ -11,7 +12,7 @@ class UserManager(ORMMixin, Database):
             is_active BOOLEAN NOT NULL DEFAULT TRUE,
             first_name TEXT NOT NULL,
             last_name TEXT NOT NULL,
-            date_joined TIMESTAMP NOT NULL,
+            date_joined TIMESTAMP NOT NULL DEFAULT NOW(),
             username TEXT NOT NULL UNIQUE,
             phone TEXT NOT NULL UNIQUE,
             otp TEXT

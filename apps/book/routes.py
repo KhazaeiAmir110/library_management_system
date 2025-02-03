@@ -1,7 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, HTTPException
-from starlette import status
+from fastapi import APIRouter, HTTPException, status
 
 from apps.book.models import Book
 from apps.book.serializers import BookBaseSerializer, BookUpdateSerializer, BookCreateSerializer
