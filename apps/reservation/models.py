@@ -3,6 +3,7 @@ from apps.core.orm import ORMMixin
 
 
 class ReservationManager(ORMMixin, Database):
+    primary_keys = ["id"]
     _create_table_query = """
         CREATE TABLE IF NOT EXISTS reservation (
             id SERIAL PRIMARY KEY,
