@@ -69,3 +69,27 @@ class UserUpdateSerializer(BaseModel):
         if len(value) < 8:
             raise ValueError("Password must be at least 8 characters long")
         return value
+
+
+class CustomerBaseSerializer(BaseModel):
+    pass
+
+
+class CustomerCreateSerializer(BaseModel):
+    pass
+
+
+class CustomerUpdateSerializer(BaseModel):
+    pass
+
+
+class AuthorBaseSerializer(BaseModel):
+    pass
+
+
+class AuthorCreateSerializer(BaseModel):
+    pass
+
+
+class AuthorUpdateSerializer(BaseModel):
+    pass

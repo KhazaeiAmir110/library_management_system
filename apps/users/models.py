@@ -21,10 +21,10 @@ class UsersManager(ORMMixin, Database):
 
 
 class AuthorManager(ORMMixin, Database):
+    primary_keys = ["id"]
     _create_table_query = """
         CREATE TABLE IF NOT EXISTS author (
             id INTEGER PRIMARY KEY REFERENCES "users" (id) ON DELETE CASCADE,
-            name VARCHAR(100) NOT NULL,
             biography TEXT NOT NULL,
             book_id INTEGER,
             city_id INTEGER,
@@ -36,13 +36,12 @@ class AuthorManager(ORMMixin, Database):
     """
 
 
-class CustomUserManager(ORMMixin, Database):
+class CustomerManager(ORMMixin, Database):
+    primary_keys = ["id"]
     _create_table_query = """
         CREATE TABLE IF NOT EXISTS customer (
             id INTEGER PRIMARY KEY REFERENCES "users" (id) ON DELETE CASCADE,
             subscription_model VARCHAR(10) NOT NULL DEFAULT 'Free' CHECK (subscription_model IN ('Free', 'Plus', 'Premium')),
-            subscription_start TIMESTAMP,
-            subscription_end TIMESTAMP,
             wallet_amount DECIMAL(10,2) NOT NULL DEFAULT 0.00
         );
     """
@@ -71,4 +70,4 @@ class Author:
 
 
 class Customer:
-    objects = CustomUserManager()
+    objects = CustomerManager()
