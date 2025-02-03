@@ -5,7 +5,7 @@ from apps.users.models import Author
 from apps.users.serializers import AuthorCreateSerializer, AuthorBaseSerializer, AuthorUpdateSerializer
 
 
-class CustomerService:
+class AuthorService:
     @staticmethod
     def create_author(user_data: AuthorCreateSerializer) -> Response:
         try:
