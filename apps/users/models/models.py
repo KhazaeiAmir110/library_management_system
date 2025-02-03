@@ -47,6 +47,20 @@ class CustomUserManager(ORMMixin, Database):
     """
 
 
+class CityManager(ORMMixin, Database):
+    _create_table_query = """
+        CREATE TABLE IF NOT EXISTS city (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(100) NOT NULL,
+            country VARCHAR(100) NOT NULL
+        );
+    """
+
+
+class City:
+    objects = CityManager()
+
+
 class User:
     objects = UserManager()
 
